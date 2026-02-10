@@ -163,21 +163,22 @@ class DemoWorldApp(ShowBase):
             for _ in range(steps):
                 step_stats = self.env.step()
                 self._last_stats = step_stats
-                if self.env.agents:
-                    min_h = min(a.hydration for a in self.env.agents)
-                    max_h = max(a.hydration for a in self.env.agents)
-                else:
-                    min_h = 0.0
-                    max_h = 0.0
-                print(
-                    f"step={step_stats.step} pop={step_stats.population} "
-                    f"births={step_stats.births} deaths={step_stats.deaths} "
-                    f"starv={step_stats.deaths_starvation} dehydr={step_stats.deaths_dehydration} "
-                    f"heart={step_stats.deaths_heart} age={step_stats.deaths_age} "
-                    f"acc={step_stats.deaths_accident} "
-                    f"avgE={step_stats.avg_energy:.3f} avgH={step_stats.avg_hydration:.3f} "
-                    f"minH={min_h:.3f} maxH={max_h:.3f} avgHeart={step_stats.avg_heart:.3f}"
-                )
+                if step_stats.step % 20 == 0:
+                    if self.env.agents:
+                        min_h = min(a.hydration for a in self.env.agents)
+                        max_h = max(a.hydration for a in self.env.agents)
+                    else:
+                        min_h = 0.0
+                        max_h = 0.0
+                    print(
+                        f"step={step_stats.step} pop={step_stats.population} "
+                        f"births={step_stats.births} deaths={step_stats.deaths} "
+                        f"starv={step_stats.deaths_starvation} dehydr={step_stats.deaths_dehydration} "
+                        f"heart={step_stats.deaths_heart} age={step_stats.deaths_age} "
+                        f"acc={step_stats.deaths_accident} "
+                        f"avgE={step_stats.avg_energy:.3f} avgH={step_stats.avg_hydration:.3f} "
+                        f"minH={min_h:.3f} maxH={max_h:.3f} avgHeart={step_stats.avg_heart:.3f}"
+                    )
             if self._last_stats is not None:
                 phase = "day" if self._last_stats.is_day else "night"
                 self.time_text.setText(
